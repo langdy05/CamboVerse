@@ -426,7 +426,7 @@ export function TeachingBlock({
         </group>
 
         {/* Accent Panel behind desk */}
-        <mesh position={[0, 2.0, -d / 2 + 0.52]} castShadow><boxGeometry args={[6, 2.5, 0.1]} /><meshStandardMaterial color="#2b3b5c" roughness={0.7} /></mesh>
+        <mesh position={[0, 2.0, -d / 2 + 0.52]} castShadow><boxGeometry args={[6, 2.5, 0.1]} /><meshStandardMaterial color="#2b3b5c" roughness={0.7} polygonOffset polygonOffsetFactor={-1} polygonOffsetUnits={-1} /></mesh>
 
         {/* Waiting Area: Sofas and Coffee Table */}
         <group position={[-5, 0, 3]}>
@@ -508,9 +508,9 @@ export function TeachingBlock({
         {/* Slatted Wooden Backdrop */}
         <group position={[0, 0.8 + (fh - 0.8) / 2, -1.8]}>
           {/* Base backing (optional, to block light slightly or give depth) */}
-          <mesh position={[0, 0, -0.1]} castShadow receiveShadow>
+          <mesh position={[0, 0, -0.11]} castShadow receiveShadow>
             <boxGeometry args={[w / 3 - 1.5, fh - 0.8, 0.1]} />
-            <meshStandardMaterial color="#222222" roughness={0.9} />
+            <meshStandardMaterial color="#222222" roughness={0.9} polygonOffset polygonOffsetFactor={1} polygonOffsetUnits={1} />
           </mesh>
           {/* Individual wooden slats */}
           {Array.from({ length: 90 }).map((_, i) => {
@@ -563,7 +563,7 @@ export function TeachingBlock({
         {/* Back Wall (White Marble) */}
         <mesh position={[0, 0.5 + fh / 2, -d / 2 + 0.3]} castShadow receiveShadow><boxGeometry args={[w / 3 - 0.2, fh, 0.4]} /><meshStandardMaterial color="#f5f5f5" roughness={0.3} metalness={0.1} /></mesh>
         {/* Presentation Screen on Back Wall */}
-        <mesh position={[0, 2.0, -d / 2 + 0.52]} castShadow><boxGeometry args={[8, 2.0, 0.1]} /><meshStandardMaterial color="#111111" roughness={0.2} /></mesh>
+        <mesh position={[0, 2.0, -d / 2 + 0.52]} castShadow><boxGeometry args={[8, 2.0, 0.1]} /><meshStandardMaterial color="#111111" roughness={0.2} polygonOffset polygonOffsetFactor={-1} polygonOffsetUnits={-1} /></mesh>
 
         {/* Left Side Wall (Inner, with Doorway facing corridor) */}
         <mesh position={[-w / 6 + 0.3, 0.5 + fh / 2, -4.3]} castShadow receiveShadow><boxGeometry args={[0.4, fh, 6.2]} /><meshStandardMaterial map={glass} roughness={0.18} metalness={0.35} transparent opacity={0.6} /></mesh>
