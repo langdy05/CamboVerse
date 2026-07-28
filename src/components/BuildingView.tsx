@@ -64,12 +64,12 @@ function TheBuilding({ id, model }: { id: string; model?: string }) {
     case "parking":
       return (
         <>
-          {[-1, 0, 1].map((i) => (
-            <ParkingCanopy key={i} position={[i * 19, 0, 0]} rotation={Math.PI / 2} length={64} width={13} />
+          {[-1, 1].map((i) => (
+            <ParkingCanopy key={i} position={[i * 12, 0, 0]} rotation={Math.PI / 2} length={92} width={10} solar />
           ))}
         </>
       );
-    case "field": return <SportsField position={[0, 0, 0]} rx={42} rz={34} />;
+    case "field": return <SportsField position={[0, 0, 0]} w={120} d={75} />;
     default: return null;
   }
 }

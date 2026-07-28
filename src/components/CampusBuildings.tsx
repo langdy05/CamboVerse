@@ -455,11 +455,19 @@ export function Shrine({ position = [0, 0, 0] as [number, number, number] }) {
   );
 }
 
-/** A long parking canopy — a single white shed roof on slim posts. */
+/**
+ * A long parking canopy — a single shed roof on slim posts. `solar` gives it
+ * the blue panelled roof the master plan draws on the two central canopies.
+ */
 export function ParkingCanopy({
   length = 60, width = 11, height = 4.2, position = [0, 0, 0] as [number, number, number], rotation = 0,
+  solar = false,
 }) {
   const posts = Math.max(3, Math.round(length / 9));
+  const panelTex = useMemo(
+    () => (solar ? roofTexture("#2f4a68", Math.max(8, Math.round(length / 2.4)), [1, 1]) : null),
+    [solar, length],
+  );
   return (
     <group position={position} rotation={[0, rotation, 0]}>
       {Array.from({ length: posts }).map((_, i) => (
@@ -470,7 +478,48 @@ export function ParkingCanopy({
       ))}
       <mesh position={[0, height + 0.2, 0]} rotation={[0.06, 0, 0]} castShadow receiveShadow>
         <boxGeometry args={[length, 0.25, width]} />
-        <meshStandardMaterial color="#f4f4f1" roughness={0.55} metalness={0.15} />
+        {panelTex ? (
+          <meshStandardMaterial map={panelTex} roughness={0.32} metalness={0.5} />
+        ) : (
+          <meshStandardMaterial color="#f4f4f1" roughness={0.55} metalness={0.15} />
+        )}
+      </mesh>
+    </group>
+  );
+}
+
+/**
+ * A **scenery block** — the cheap massing for the master plan's secondary
+ * buildings (the north annex, the west residence slab, the east houses, the
+ * dormitory wings, the cottages). Four meshes — plinth, facade-textured body,
+ * eave band, hipped roof — so the plan can show every building on the board
+ * without paying the ~30 meshes a full TeachingBlock costs, nine times over.
+ */
+export function SimpleBlock({
+  w = 40, d = 14, floors = 2, roof = "#b23a34",
+  position = [0, 0, 0] as [number, number, number], rotation = 0,
+}) {
+  const fh = 3.4;
+  const h = floors * fh;
+  const facade = useMemo(() => facadeTexture(floors, Math.max(4, Math.round(w / 4))), [floors, w]);
+  const roofTex = useMemo(() => roofTexture(roof, 40, [8, 3]), [roof]);
+  const roofGeo = useMemo(() => hippedRoofGeometry(w, d, 2.6 + d * 0.1, 1.2), [w, d]);
+  return (
+    <group position={position} rotation={[0, rotation, 0]}>
+      <mesh position={[0, 0.2, 0]} receiveShadow>
+        <boxGeometry args={[w + 2, 0.4, d + 2]} />
+        <meshStandardMaterial color="#cfcbc2" roughness={1} />
+      </mesh>
+      <mesh position={[0, 0.4 + h / 2, 0]} castShadow receiveShadow>
+        <boxGeometry args={[w, h, d]} />
+        <meshStandardMaterial map={facade} roughness={0.85} />
+      </mesh>
+      <mesh position={[0, 0.4 + h + 0.2, 0]} castShadow>
+        <boxGeometry args={[w + 2.2, 0.4, d + 2.2]} />
+        <meshStandardMaterial color="#f6f4ee" roughness={0.75} />
+      </mesh>
+      <mesh geometry={roofGeo} position={[0, 0.4 + h + 0.4, 0]} castShadow receiveShadow>
+        <meshStandardMaterial map={roofTex} roughness={0.62} side={DoubleSide} />
       </mesh>
     </group>
   );

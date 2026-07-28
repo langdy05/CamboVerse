@@ -79,8 +79,9 @@ export const SITES: Site[] = [
       "Walk in past the entrance monument, across the lawn to the teaching block, east to the " +
       "car park and the Great Hall, then back to the shrine at the centre. Seven buildings.",
     provenance:
-      "Rebuilt from the CamboVerse Center's own photographs of the campus. The massing and the " +
-      "walking route follow the photographs; distances between buildings are plausible rather " +
+      "Rebuilt from the CamboVerse Center's own photographs of the campus. The ground plan — " +
+      "roads, entrance avenue, sports field, ponds and building positions — follows the campus " +
+      "master-plan board; the massing follows the photographs. Distances are plausible rather " +
       "than surveyed.",
   },
 ];
@@ -109,10 +110,10 @@ export const BUILDINGS: Building[] = [
       "Sugar palms (ដើមត្នោត) flank the avenue behind it — Cambodia's national tree, and the shape most people picture when they picture the Cambodian countryside.",
     ],
     facts: [
-      { label: "Marks", value: "The head of the entrance avenue" },
+      { label: "Marks", value: "The avenue's junction with the highway" },
       { label: "Planting", value: "Sugar palms, clipped hedge beds" },
     ],
-    view: { at: [0, 1.6, 176], yaw: 0 },
+    view: { at: [-18, 1.6, 261], yaw: 0 },
     heightM: 3,
     spanM: 26,
   },
@@ -131,9 +132,9 @@ export const BUILDINGS: Building[] = [
       { label: "Use", value: "Lecture rooms and seminar rooms" },
       { label: "Roof", value: "Red hipped roof, deep eaves" },
     ],
-    view: { at: [-6, 1.6, 96], yaw: 0 },
-    heightM: 19,
-    spanM: 50,
+    view: { at: [-58, 1.6, 30], yaw: 0 },
+    heightM: 22,
+    spanM: 90,
   },
   {
     id: "construction",
@@ -149,7 +150,7 @@ export const BUILDINGS: Building[] = [
       { label: "Status", value: "Structure up, cladding started" },
       { label: "Floors", value: "Five" },
     ],
-    view: { at: [-84, 1.6, 78], yaw: 0 },
+    view: { at: [-85, 1.6, -78], yaw: 0 },
     heightM: 20,
     spanM: 48,
   },
@@ -160,16 +161,16 @@ export const BUILDINGS: Building[] = [
     english: "Shaded car park",
     site: NUM_SITE,
     about: [
-      "Three long white canopies shade the car park. In a country where an afternoon dashboard can pass 70 °C, shade is infrastructure, not luxury.",
+      "Two long canopies shade the central car park, their roofs carrying solar panels — the blue-decked structures at the middle of the master plan. In a country where an afternoon dashboard can pass 70 °C, shade is infrastructure, not luxury.",
       "Their thin steel frames and single-slope roofs are the plainest structures on the campus — and a good place to see how much of the site's character comes from the roofs alone.",
     ],
     facts: [
-      { label: "Canopies", value: "Three, about 60 m each" },
-      { label: "Structure", value: "Steel posts, single-slope roof" },
+      { label: "Canopies", value: "Two, about 90 m each" },
+      { label: "Structure", value: "Steel posts, solar-panel roof" },
     ],
-    view: { at: [94, 1.6, 136], yaw: 0 },
+    view: { at: [52, 1.6, 138], yaw: 0 },
     heightM: 5,
-    spanM: 64,
+    spanM: 92,
   },
   {
     id: "hall",
@@ -187,9 +188,9 @@ export const BUILDINGS: Building[] = [
       { label: "Roof", value: "Hipped, ~6 m overhang, Khmer spire on the ridge" },
       { label: "Walls", value: "Glazing set back behind a colonnade" },
     ],
-    view: { at: [96, 1.6, 74], yaw: 0 },
+    view: { at: [67, 1.6, -14], yaw: 0 },
     heightM: 25,
-    spanM: 62,
+    spanM: 82,
   },
   {
     id: "shrine",
@@ -205,7 +206,7 @@ export const BUILDINGS: Building[] = [
       { label: "Khmer", value: "ខ្ទមទេវតា — a spirit house" },
       { label: "Offerings", value: "Incense, flowers, fruit" },
     ],
-    view: { at: [62, 1.6, 40], yaw: Math.PI },
+    view: { at: [-38, 1.6, 135], yaw: 0 },
     heightM: 8,
     spanM: 6,
   },
@@ -223,9 +224,9 @@ export const BUILDINGS: Building[] = [
       { label: "Track", value: "Six lanes around the pitch" },
       { label: "Use", value: "Football, athletics, ceremonies" },
     ],
-    view: { at: [-104, 1.6, 178], yaw: 0 },
+    view: { at: [-70, 1.6, 122], yaw: 0 },
     heightM: 3,
-    spanM: 88,
+    spanM: 120,
   },
 ];
 
