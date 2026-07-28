@@ -268,7 +268,7 @@ function ClassroomInterior({ roomW, d, fh }: { roomW: number, d: number, fh: num
   return (
     <group>
       {/* Floor & Ceiling */}
-      <mesh position={[0, 0.25, 0]} receiveShadow><boxGeometry args={[roomW, 0.5, d]} /><meshStandardMaterial color="#c2b092" roughness={0.7} polygonOffset polygonOffsetFactor={-1} polygonOffsetUnits={-1} /></mesh>
+      <mesh position={[0, 0.25, 0]} receiveShadow><boxGeometry args={[roomW, 0.5, d]} /><meshStandardMaterial color="#c2b092" roughness={0.7} /></mesh>
       <mesh position={[0, fh, 0]} castShadow receiveShadow><boxGeometry args={[roomW, 0.2, d]} /><meshStandardMaterial color="#f0f0f0" roughness={0.9} /></mesh>
       
       {/* Side walls (Solid) */}
@@ -304,7 +304,7 @@ function OfficeInterior({ roomW, d, fh }: { roomW: number, d: number, fh: number
   return (
     <group>
       {/* Floor & Ceiling */}
-      <mesh position={[0, 0.25, 0]} receiveShadow><boxGeometry args={[roomW, 0.5, d]} /><meshStandardMaterial color="#9ea6a2" roughness={0.8} polygonOffset polygonOffsetFactor={-1} polygonOffsetUnits={-1} /></mesh>
+      <mesh position={[0, 0.25, 0]} receiveShadow><boxGeometry args={[roomW, 0.5, d]} /><meshStandardMaterial color="#9ea6a2" roughness={0.8} /></mesh>
       <mesh position={[0, fh, 0]} castShadow receiveShadow><boxGeometry args={[roomW, 0.2, d]} /><meshStandardMaterial color="#f0f0f0" roughness={0.9} /></mesh>
       
       {/* Side walls (Solid) */}
@@ -377,7 +377,7 @@ export function TeachingBlock({
         onPointerOut={() => { document.body.style.cursor = 'auto'; }}
       >
         {/* Floor (Tan tiles) — raised 0.01 m above plinth top so they never Z-fight */}
-        <mesh position={[0, 0.26, 0]} receiveShadow><boxGeometry args={[w / 3 - 0.2, 0.5, d - 0.2]} /><meshStandardMaterial color="#d4c9b8" roughness={0.7} polygonOffset polygonOffsetFactor={-1} polygonOffsetUnits={-1} /></mesh>
+        <mesh position={[0, 0.26, 0]} receiveShadow><boxGeometry args={[w / 3 - 0.2, 0.5, d - 0.2]} /><meshStandardMaterial color="#d4c9b8" roughness={0.7} /></mesh>
         {/* Ceiling (White) */}
         <mesh position={[0, fh, 0]} castShadow receiveShadow><boxGeometry args={[w / 3 - 0.2, 0.2, d - 0.2]} /><meshStandardMaterial color="#f0f0f0" roughness={0.9} /></mesh>
         {/* Back Wall */}
@@ -556,7 +556,7 @@ export function TeachingBlock({
         onPointerOut={() => { document.body.style.cursor = 'auto'; }}
       >
         {/* Floor (Tan tiles) — raised 0.01 m above plinth top so they never Z-fight */}
-        <mesh position={[0, 0.26, 0]} receiveShadow><boxGeometry args={[w / 3 - 0.2, 0.5, d - 0.2]} /><meshStandardMaterial color="#c2b092" roughness={0.5} polygonOffset polygonOffsetFactor={-1} polygonOffsetUnits={-1} /></mesh>
+        <mesh position={[0, 0.26, 0]} receiveShadow><boxGeometry args={[w / 3 - 0.2, 0.5, d - 0.2]} /><meshStandardMaterial color="#c2b092" roughness={0.5} /></mesh>
         {/* Ceiling (Dark Industrial) */}
         <mesh position={[0, fh, 0]} castShadow receiveShadow><boxGeometry args={[w / 3 - 0.2, 0.2, d - 0.2]} /><meshStandardMaterial color="#3a3a3a" roughness={0.9} /></mesh>
         
