@@ -1,9 +1,10 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls, Sky } from "@react-three/drei";
-import { createXRStore, XR, XROrigin, useXR } from "@react-three/xr";
+import { createXRStore, XR, useXR } from "@react-three/xr";
 import { ACESFilmicToneMapping } from "three";
 import { FirstPersonControls, type WalkInput } from "./FirstPersonControls";
+import { VRRig } from "./VRRig";
 import { WalkControls } from "./WalkControls";
 import {
   GreatHall, TeachingBlock, EntranceMonument, Shrine, ParkingCanopy, SportsField,
@@ -73,6 +74,18 @@ const LIFT = {
 /** One paving tile-set per 8 m of ground → roughly 1 m slabs. */
 const PAVER_M = 8;
 
+/**
+ * Where a VR visitor spawns: standing in front of the main gate (which sits at
+ * z ≈ 240 on the entrance avenue), facing north up the avenue into the campus.
+ * From here the thumbsticks do everything — left stick walks, right stick
+ * snap-turns — so the headset user never has to move their real body.
+ * yaw 0 = looking down −Z = into the campus.
+ */
+const VR_SPAWN: [number, number, number] = [-40, 0, 256];
+const VR_YAW = 0;
+/** Metres per second on foot — the campus is large, so faster than a room. */
+const VR_WALK_SPEED = 6;
+
 /* ----------------------------------------------------------------- view --- */
 
 export function BuildingsView({
@@ -121,7 +134,9 @@ export function BuildingsView({
       >
         <XR store={store}>
           <CampusWorld mode={mode} onOpenBuilding={onOpenBuilding} />
-          <XROrigin position={[0, 0, 96]} />
+          {/* VR player: spawns in front of the main gate and moves with the
+              controller thumbsticks (walk + snap-turn). Harmless on flat screens. */}
+          <VRRig position={VR_SPAWN} yaw={VR_YAW} speed={VR_WALK_SPEED} />
           <VrImpliesUltra onEnter={() => setMode("ultra")} />
           {nav === "walk" ? (
             <FirstPersonControls input={input} start={start} startYaw={startYaw} />
