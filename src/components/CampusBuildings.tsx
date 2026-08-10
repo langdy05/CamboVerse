@@ -7,6 +7,10 @@ import { Text, Instances, Instance } from "@react-three/drei";
 import {
   paveTexture, glazingTexture, roofTexture, signTexture, hedgeTexture
 } from "../lib/campusTexture";
+import { CAMBOVERSE_ROOM } from "../data/camboverseRoom";
+
+/** Degrees → radians, for layouts authored in degrees (the room editor). */
+const DEG = Math.PI / 180;
 
 /**
  * The building kit for the NUM International Campus — hipped metal roofs, a
@@ -561,82 +565,46 @@ export function TeachingBlock({
         onPointerOver={(e) => { e.stopPropagation(); document.body.style.cursor = 'pointer'; }}
         onPointerOut={() => { document.body.style.cursor = 'auto'; }}
       >
-        {/* Floor (Tan tiles). Lifted clear of the plinth top so the two aren't
-            coplanar at y=0.5 — see the Administration floor above. */}
-        <mesh position={[0, 0.27, 0]} receiveShadow>
-          <boxGeometry args={[w / 3 - 0.2, 0.5, d - 0.2]} />
-          <meshStandardMaterial color="#c2b092" roughness={0.5} polygonOffset polygonOffsetFactor={-2} polygonOffsetUnits={-2} />
-        </mesh>
-        {/* Ceiling (Dark Industrial) */}
-        <mesh position={[0, fh, 0]} castShadow receiveShadow><boxGeometry args={[w / 3 - 0.2, 0.2, d - 0.2]} /><meshStandardMaterial color="#3a3a3a" roughness={0.9} /></mesh>
-        
-        {/* Back Wall (White Marble) */}
-        <mesh position={[0, 0.5 + fh / 2, -d / 2 + 0.3]} castShadow receiveShadow><boxGeometry args={[w / 3 - 0.2, fh, 0.4]} /><meshStandardMaterial color="#f5f5f5" roughness={0.3} metalness={0.1} /></mesh>
-        {/* Presentation Screen on Back Wall */}
-        <mesh position={[0, 2.0, -d / 2 + 0.52]} castShadow><boxGeometry args={[8, 2.0, 0.1]} /><meshStandardMaterial color="#111111" roughness={0.2} /></mesh>
-
-        {/* Left Side Wall (Inner, with Doorway facing corridor) */}
-        <mesh position={[-w / 6 + 0.3, 0.5 + fh / 2, -4.3]} castShadow receiveShadow><boxGeometry args={[0.4, fh, 6.2]} /><meshStandardMaterial map={glass} roughness={0.18} metalness={0.35} transparent opacity={0.6} /></mesh>
-        <mesh position={[-w / 6 + 0.3, 0.5 + fh / 2, 4.3]} castShadow receiveShadow><boxGeometry args={[0.4, fh, 6.2]} /><meshStandardMaterial map={glass} roughness={0.18} metalness={0.35} transparent opacity={0.6} /></mesh>
-        <mesh position={[-w / 6 + 0.3, fh - 0.4, 0]} castShadow receiveShadow><boxGeometry args={[0.4, 0.8, 2.4]} /><meshStandardMaterial map={glass} roughness={0.18} metalness={0.35} transparent opacity={0.6} /></mesh>
-
-        {/* Right Side Wall (Outer Glass) */}
-        <mesh position={[w / 6 - 0.3, 0.5 + fh / 2, 0]} castShadow receiveShadow><boxGeometry args={[0.4, fh, d - 0.2]} /><meshStandardMaterial map={glass} roughness={0.18} metalness={0.35} transparent opacity={0.6} /></mesh>
-        
-        {/* Front Glass Wall (Solid) */}
-        <mesh position={[0, 0.5 + fh / 2, d / 2 - 0.2]} castShadow receiveShadow><boxGeometry args={[w / 3 - 0.4, fh, 0.2]} /><meshStandardMaterial map={glass} roughness={0.18} metalness={0.35} transparent opacity={0.6} /></mesh>
-
-        {/* Hanging Ceiling Lights */}
-        {[-5, 0, 5].map(lx => (
-          <group key={`light-${lx}`}>
-            {[-3, 3].map(lz => (
-              <mesh key={`light-${lx}-${lz}`} position={[lx, fh - 0.2, lz]}><boxGeometry args={[1.8, 0.1, 0.4]} /><meshStandardMaterial color="#111" emissive="#fff" emissiveIntensity={1} /></mesh>
-            ))}
-          </group>
-        ))}
-        
-        {/* Left Side: Tiered Wooden Seating (Bleachers) */}
-        <group position={[-w / 6 + 1.1, 0.5, 1]}>
-          <mesh position={[0, 0.2, 0]} castShadow receiveShadow><boxGeometry args={[1.6, 0.4, 8]} /><meshStandardMaterial color="#a88c67" roughness={0.8} /></mesh>
-          <mesh position={[-0.4, 0.6, 0]} castShadow receiveShadow><boxGeometry args={[0.8, 0.4, 8]} /><meshStandardMaterial color="#a88c67" roughness={0.8} /></mesh>
-        </group>
-
-        {/* Right Side: Low Wooden Cabinets */}
-        <mesh position={[w / 6 - 0.8, 0.7, 1]} castShadow receiveShadow><boxGeometry args={[1, 0.6, 8]} /><meshStandardMaterial color="#d4b88a" roughness={0.7} /></mesh>
-
-        {/* Center: U-Shaped Meeting Tables */}
-        <group position={[0, 0.8, 0]}>
-          <mesh position={[-2.5, 0, 1]} castShadow receiveShadow><boxGeometry args={[1, 0.6, 6]} /><meshStandardMaterial color="#ffffff" roughness={0.5} /></mesh>
-          <mesh position={[2.5, 0, 1]} castShadow receiveShadow><boxGeometry args={[1, 0.6, 6]} /><meshStandardMaterial color="#ffffff" roughness={0.5} /></mesh>
-          <mesh position={[0, 0, -2.5]} castShadow receiveShadow><boxGeometry args={[6, 0.6, 1]} /><meshStandardMaterial color="#ffffff" roughness={0.5} /></mesh>
-        </group>
-
-        {/* Office Chairs around tables */}
-        {[-1, 1, 3].map((cz, i) => (
-           <group key={`chair-l-${i}`} position={[-3.5, 0.7, cz]} rotation={[0, Math.PI / 2, 0]}>
-             <mesh position={[0, -0.1, 0]} castShadow><boxGeometry args={[0.5, 0.1, 0.5]} /><meshStandardMaterial color="#333" /></mesh>
-             <mesh position={[0, 0.15, -0.2]} castShadow><boxGeometry args={[0.5, 0.4, 0.05]} /><meshStandardMaterial color="#555" /></mesh>
-           </group>
-        ))}
-        {[-1, 1, 3].map((cz, i) => (
-           <group key={`chair-r-${i}`} position={[3.5, 0.7, cz]} rotation={[0, -Math.PI / 2, 0]}>
-             <mesh position={[0, -0.1, 0]} castShadow><boxGeometry args={[0.5, 0.1, 0.5]} /><meshStandardMaterial color="#333" /></mesh>
-             <mesh position={[0, 0.15, -0.2]} castShadow><boxGeometry args={[0.5, 0.4, 0.05]} /><meshStandardMaterial color="#555" /></mesh>
-           </group>
-        ))}
-        {[-1.5, 0, 1.5].map((cx, i) => (
-           <group key={`chair-t-${i}`} position={[cx, 0.7, -1.6]} rotation={[0, 0, 0]}>
-             <mesh position={[0, -0.1, 0]} castShadow><boxGeometry args={[0.5, 0.1, 0.5]} /><meshStandardMaterial color="#333" /></mesh>
-             <mesh position={[0, 0.15, -0.2]} castShadow><boxGeometry args={[0.5, 0.4, 0.05]} /><meshStandardMaterial color="#555" /></mesh>
-           </group>
-        ))}
-        
-        {/* Sign: CamboVerse Center */}
-        <mesh position={[0, fh - 0.5, d / 2 - 0.05]}>
-          <boxGeometry args={[4.8, 0.8, 0.1]} />
-          <meshStandardMaterial color="#2d5236" roughness={0.8} />
-          <Text position={[0, 0, 0.06]} fontSize={0.35} color="white" anchorX="center" anchorY="middle">CamboVerse Center</Text>
-        </mesh>
+        {/* The room is rendered from the saved editor layout so the live campus
+            and the Room Editor stay in sync. Edit it in the editor, Export JSON,
+            and paste the objects into src/data/camboverseRoom.ts.
+            Glass walls keep the glazing texture; lights stay emissive; the sign
+            keeps its Khmer/English label; the floor keeps the polygon-offset
+            that stops it z-fighting the plinth. */}
+        {CAMBOVERSE_ROOM.map((o) => {
+          const isGlass = /glass|lintel/.test(o.name);
+          const isLight = /^light/.test(o.name);
+          return (
+            <mesh
+              key={o.name}
+              position={o.position}
+              rotation={[o.rotationDeg[0] * DEG, o.rotationDeg[1] * DEG, o.rotationDeg[2] * DEG]}
+              scale={o.scale as [number, number, number]}
+              castShadow
+              receiveShadow
+            >
+              {o.type === "cylinder" ? (
+                <cylinderGeometry args={o.size as [number, number, number, number]} />
+              ) : o.type === "sphere" ? (
+                <sphereGeometry args={[o.size[0], 24, 16]} />
+              ) : (
+                <boxGeometry args={o.size as [number, number, number]} />
+              )}
+              {isGlass ? (
+                <meshStandardMaterial map={glass} roughness={0.18} metalness={0.35} transparent opacity={0.6} />
+              ) : isLight ? (
+                <meshStandardMaterial color={o.color} emissive="#ffffff" emissiveIntensity={1} />
+              ) : o.name === "floor" ? (
+                <meshStandardMaterial color={o.color} roughness={0.5} polygonOffset polygonOffsetFactor={-2} polygonOffsetUnits={-2} />
+              ) : (
+                <meshStandardMaterial color={o.color} roughness={0.6} />
+              )}
+              {o.name === "sign" && (
+                <Text position={[0, 0, 0.06]} fontSize={0.35} color="white" anchorX="center" anchorY="middle">CamboVerse Center</Text>
+              )}
+            </mesh>
+          );
+        })}
       </group>
 
       {/* Ground Floor Canopy (Front only) */}
